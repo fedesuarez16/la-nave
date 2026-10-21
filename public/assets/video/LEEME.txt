@@ -1,0 +1,4 @@
+Colocá acá los videos (MP4, H.264):
+- hero.mp4        → loop de la portada (sin audio, 10-20s)
+- showreel.mp4    → showreel completo
+- proyecto-1.mp4, proyecto-2.mp4, proyecto-3.mp4 → videos de las tarjetas
