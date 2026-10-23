@@ -1,18 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { navLinks } from "@/content/site";
+import type { Dictionary, Locale } from "@/i18n/config";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
-export function Logo() {
+export function Logo({ label }: { label: string }) {
   return (
-    <a href="#inicio" aria-label="La Nave Studios — inicio" className="inline-flex items-baseline gap-1.5 font-display text-[22px] tracking-wide">
+    <a href="#inicio" aria-label={label} className="inline-flex items-baseline gap-1.5 font-display text-[22px] tracking-wide">
       LA NAVE
       <span className="font-sans text-[11px] font-semibold tracking-[0.35em] text-turq">STUDIOS</span>
     </a>
   );
 }
 
-export function Header() {
+export function Header({ lang, dict }: { lang: Locale; dict: Dictionary["nav"] }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -39,29 +40,33 @@ export function Header() {
           scrolled || open ? "border-b border-line bg-ink/85 py-3.5 backdrop-blur-md" : "py-5"
         }`}
       >
-        <Logo />
+        <Logo label={dict.home} />
 
         <nav aria-label="Principal" className="hidden items-center gap-8 lg:flex">
-          {navLinks.map((link) => (
+          {dict.links.map((link) => (
             <a key={link.href} href={link.href} className={`${linkClass} text-[13px]`}>
               {link.label}
             </a>
           ))}
           <a href="#contacto" className={`${ctaClass} text-[13px]`}>
-            Contacto
+            {dict.contact}
           </a>
+          <LanguageSwitcher lang={lang} label={dict.language} className="border-l border-line pl-8" />
         </nav>
 
-        <button
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          className="relative h-5 w-8 shrink-0 lg:hidden"
-        >
-          <span className={`absolute left-0 h-0.5 w-full bg-paper transition-all ${open ? "top-[9px] rotate-45" : "top-1"}`} />
-          <span className={`absolute left-0 h-0.5 w-full bg-paper transition-all ${open ? "top-[9px] -rotate-45" : "top-3.5"}`} />
-        </button>
+        <div className="flex items-center gap-6 lg:hidden">
+          <LanguageSwitcher lang={lang} label={dict.language} />
+          <button
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? dict.closeMenu : dict.openMenu}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            className="relative h-5 w-8 shrink-0"
+          >
+            <span className={`absolute left-0 h-0.5 w-full bg-paper transition-all ${open ? "top-[9px] rotate-45" : "top-1"}`} />
+            <span className={`absolute left-0 h-0.5 w-full bg-paper transition-all ${open ? "top-[9px] -rotate-45" : "top-3.5"}`} />
+          </button>
+        </div>
       </header>
 
       {/* Fuera del header: su backdrop-filter crearía un containing block y rompería el `fixed`. */}
@@ -73,13 +78,13 @@ export function Header() {
           open ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        {navLinks.map((link) => (
+        {dict.links.map((link) => (
           <a key={link.href} href={link.href} onClick={() => setOpen(false)} className={`${linkClass} text-lg`}>
             {link.label}
           </a>
         ))}
         <a href="#contacto" onClick={() => setOpen(false)} className={`${ctaClass} text-lg`}>
-          Contacto
+          {dict.contact}
         </a>
       </nav>
     </>

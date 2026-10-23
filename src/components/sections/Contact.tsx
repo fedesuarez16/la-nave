@@ -1,13 +1,14 @@
 import { contact } from "@/content/site";
+import type { Dictionary } from "@/i18n/config";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 
-export function Contact() {
+export function Contact({ dict }: { dict: Dictionary["contact"] }) {
   const rows = [
-    { label: "Email", value: contact.email, href: `mailto:${contact.email}` },
-    { label: "WhatsApp", value: contact.whatsapp.label, href: contact.whatsapp.href },
-    { label: "Base", value: contact.location },
+    { label: dict.rows.email, value: contact.email, href: `mailto:${contact.email}` },
+    { label: dict.rows.whatsapp, value: contact.whatsapp.label, href: contact.whatsapp.href },
+    { label: dict.rows.location, value: dict.location },
   ];
 
   return (
@@ -17,11 +18,11 @@ export function Contact() {
     >
       <div className="grid gap-[clamp(40px,6vw,100px)] md:grid-cols-2">
         <div>
-          <Eyebrow>05 — Contacto</Eyebrow>
+          <Eyebrow>{dict.eyebrow}</Eyebrow>
           <Reveal as="h2" className="font-display text-[clamp(48px,8vw,120px)] uppercase leading-[0.95]">
-            ¿Arrancamos
+            {dict.title}
             <br />
-            <span className="text-turq">tu historia?</span>
+            <span className="text-turq">{dict.accent}</span>
           </Reveal>
 
           <Reveal as="ul" className="mt-10 mb-8">
@@ -51,7 +52,7 @@ export function Contact() {
         </div>
 
         <Reveal>
-          <ContactForm email={contact.email} />
+          <ContactForm email={contact.email} dict={dict.form} />
         </Reveal>
       </div>
     </section>

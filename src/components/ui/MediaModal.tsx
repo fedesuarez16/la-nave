@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import type { Dictionary } from "@/i18n/config";
 
 type Media = { kind: "video"; src: string } | { kind: "image"; src: string; alt: string };
 
@@ -8,7 +9,12 @@ const MediaModalContext = createContext<(media: Media) => void>(() => {});
 
 export const useMediaModal = () => useContext(MediaModalContext);
 
-export function MediaModalProvider({ children }: { children: React.ReactNode }) {
+type MediaModalProviderProps = {
+  children: React.ReactNode;
+  labels: Dictionary["modal"];
+};
+
+export function MediaModalProvider({ children, labels }: MediaModalProviderProps) {
   const [media, setMedia] = useState<Media | null>(null);
   const [failed, setFailed] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -38,14 +44,14 @@ export function MediaModalProvider({ children }: { children: React.ReactNode }) 
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Reproductor"
+          aria-label={labels.label}
           onClick={(e) => e.target === e.currentTarget && close()}
           className="fixed inset-0 z-[100] grid place-items-center bg-black/95 px-4 py-16 sm:px-12 animate-fade"
         >
           <button
             ref={closeRef}
             onClick={close}
-            aria-label="Cerrar"
+            aria-label={labels.close}
             className="absolute top-4 right-4 sm:right-12 text-5xl leading-none transition duration-300 hover:rotate-90 hover:text-turq"
           >
             ×
@@ -56,7 +62,7 @@ export function MediaModalProvider({ children }: { children: React.ReactNode }) 
               <img src={media.src} alt={media.alt} className="max-h-[80vh] w-full bg-black object-contain" />
             ) : failed ? (
               <p className="border border-dashed border-line px-5 py-20 text-center text-neutral-400">
-                Video no disponible todavía. Subilo en <code className="text-turq">public{media.src}</code>
+                {labels.missingVideo} <code className="text-turq">public{media.src}</code>
               </p>
             ) : (
               <video

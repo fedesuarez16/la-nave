@@ -1,14 +1,14 @@
-import { services } from "@/content/site";
+import type { Dictionary } from "@/i18n/config";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-export function Services() {
+export function Services({ dict }: { dict: Dictionary["services"] }) {
   return (
     <section id="servicios" className="bg-paper px-[clamp(16px,5vw,72px)] py-[clamp(90px,14vw,180px)] text-ink">
-      <SectionHeading eyebrow="02 — Servicios" title="De la idea" accent="a la pantalla" light />
+      <SectionHeading eyebrow={dict.eyebrow} title={dict.title} accent={dict.accent} light />
 
       <div className="grid border-t border-black/15 md:grid-cols-2">
-        {services.map((service, i) => (
+        {dict.items.map((service, i) => (
           <Reveal
             key={service.title}
             as="article"

@@ -5,18 +5,22 @@ import { brand } from "@/content/site";
 import { useMediaModal } from "./MediaModal";
 import { PlayIcon } from "./PlayIcon";
 
-export function ShowreelButton({ variant }: { variant: "button" | "cover" }) {
+type ShowreelButtonProps =
+  | { variant: "button"; label: string }
+  | { variant: "cover"; label: string; ariaLabel: string };
+
+export function ShowreelButton(props: ShowreelButtonProps) {
   const openMedia = useMediaModal();
   const play = () => openMedia({ kind: "video", src: brand.showreel });
 
-  if (variant === "button") {
+  if (props.variant === "button") {
     return (
       <button
         onClick={play}
         className="inline-flex items-center gap-2.5 bg-turq px-7 py-4 text-[13px] font-semibold uppercase tracking-[0.16em] text-ink transition duration-300 ease-cine hover:-translate-y-0.5 hover:bg-paper"
       >
         <PlayIcon className="size-4" />
-        Ver showreel
+        {props.label}
       </button>
     );
   }
@@ -24,7 +28,7 @@ export function ShowreelButton({ variant }: { variant: "button" | "cover" }) {
   return (
     <button
       onClick={play}
-      aria-label="Reproducir showreel"
+      aria-label={props.ariaLabel}
       className="group relative mb-14 block aspect-[16/10] w-full overflow-hidden bg-coal sm:aspect-[21/9]"
     >
       <Image
@@ -39,7 +43,7 @@ export function ShowreelButton({ variant }: { variant: "button" | "cover" }) {
         <PlayIcon className="ml-[6%] w-[34%]" />
       </span>
       <span className="absolute bottom-5 left-7 font-display text-[clamp(20px,3vw,36px)] uppercase tracking-wide">
-        Showreel 2026
+        {props.label}
       </span>
     </button>
   );

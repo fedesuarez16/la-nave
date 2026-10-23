@@ -1,9 +1,12 @@
 import { brand } from "@/content/site";
+import type { Dictionary } from "@/i18n/config";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { ShowreelButton } from "@/components/ui/ShowreelButton";
 
-export function Hero() {
+export function Hero({ dict }: { dict: Dictionary["hero"] }) {
+  const [taglineAccent, taglineRest] = dict.tagline;
+
   return (
     <section
       id="inicio"
@@ -26,30 +29,30 @@ export function Hero() {
 
       <div className="relative z-10 max-w-[1200px]">
         <Reveal>
-          <Eyebrow>Productora audiovisual · Marketing creativo</Eyebrow>
+          <Eyebrow>{dict.eyebrow}</Eyebrow>
         </Reveal>
         <Reveal as="h1" delay={100} className="font-display text-[clamp(48px,10vw,150px)] uppercase leading-[0.92]">
           <span className="block">{brand.name}</span>
-          <span className="block text-outline text-turq">Tu historia merece</span>
-          <span className="block">ser contada</span>
+          <span className="block text-outline text-turq">{taglineAccent}</span>
+          <span className="block">{taglineRest}</span>
         </Reveal>
         <Reveal delay={200} className="mt-10 flex flex-wrap gap-3.5">
-          <ShowreelButton variant="button" />
+          <ShowreelButton variant="button" label={dict.showreel} />
           <a
             href="#contacto"
             className="inline-flex items-center border border-white/50 px-7 py-4 text-[13px] font-semibold uppercase tracking-[0.16em] transition-colors hover:border-turq hover:text-turq"
           >
-            Contanos tu proyecto
+            {dict.cta}
           </a>
         </Reveal>
       </div>
 
       <a
         href="#proyectos"
-        aria-label="Bajar"
+        aria-label={dict.scrollLabel}
         className="absolute right-[clamp(16px,5vw,72px)] bottom-10 z-10 hidden flex-col items-center gap-2.5 text-[10px] uppercase tracking-[0.3em] text-neutral-400 md:flex"
       >
-        Scroll
+        {dict.scroll}
         <i className="h-15 w-px origin-top animate-cue bg-linear-to-b from-turq to-transparent" />
       </a>
     </section>

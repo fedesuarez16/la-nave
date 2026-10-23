@@ -1,4 +1,5 @@
 import { clients } from "@/content/site";
+import type { Dictionary } from "@/i18n/config";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 function MarqueeRow({ items, reverse = false }: { items: string[]; reverse?: boolean }) {
@@ -26,13 +27,13 @@ function MarqueeRow({ items, reverse = false }: { items: string[]; reverse?: boo
   );
 }
 
-export function Clients() {
+export function Clients({ dict }: { dict: Dictionary["clients"] }) {
   return (
     <section id="clientes" className="overflow-hidden py-[clamp(90px,14vw,180px)]">
       <div className="px-[clamp(16px,5vw,72px)]">
-        <SectionHeading eyebrow="03 — Nuestros clientes" title="Confiaron en" accent="La Nave" />
+        <SectionHeading eyebrow={dict.eyebrow} title={dict.title} accent={dict.accent} />
       </div>
-      <div aria-label="Clientes">
+      <div role="region" aria-label={dict.label}>
         <MarqueeRow items={clients} />
         <MarqueeRow items={[...clients].reverse()} reverse />
       </div>
